@@ -48,7 +48,7 @@ const char *regpre3[] = { "A9C", "A4O", "9XR", "" };
 int verbose = 0;
 int station = 0;
 int allmess = 0;
-int jsonlog = 0;
+int jsonformat = 0;
 int dupmess = 0;
 
 void fixreg(char *reg, char *add)
@@ -143,14 +143,16 @@ static char *get_ip_str(const struct sockaddr *sa, char *s, size_t maxlen)
 static void usage(void)
 {
         fprintf(stderr,
-                "Acarsdec/acarsserv 3.1 Copyright (c) 2015 Thierry Leconte \n\n");
+                "Acarsdec/acarsserv 4.0 Copyright (c) 2018 Thierry Leconte \n\n");
 	fprintf(stderr,
-		"Usage: acarsserv [-v][-N address:port ][-b database path][-s][-d][-a][-j]\n\n");
+		"Usage: acarsserv [-v][-N address:port | -j address:port ][-b database path][-s][-d][-a][-j]\n\n");
 	fprintf(stderr, "	-v		: verbose\n");
 	fprintf(stderr,
 		"	-b filepath	: use filepath as sqlite3 database file (default : ./acarsserv.sqb)\n");
 	fprintf(stderr,
-		"	-N address:port : listen on given address:port (default : *:5555)\n");
+		"	-N address:port : listen binary format on given address:port (default : *:5555)\n");
+	fprintf(stderr,
+		"	-j address:port : listen json format on given address:port (default : *:5555)\n");
 	fprintf(stderr,
 		"	-s		: store acars messages comming from base station (default : don't store )\n");
 	fprintf(stderr,
@@ -240,13 +242,14 @@ int main(int argc, char **argv)
 	int c;
 	cJSON *json_obj;
 
-	while ((c = getopt(argc, argv, "vb:N:ajsd")) != EOF) {
+	while ((c = getopt(argc, argv, "vb:N:aj:sd")) != EOF) {
 
 		switch (c) {
 		case 'v':
 			verbose = 1;
 			break;
 		case 'N':
+			jsonformat = 0;
 			bindaddr = optarg;
 			break;
 		case 'b':
@@ -256,7 +259,8 @@ int main(int argc, char **argv)
 			allmess = 1;
 			break;
 		case 'j':
-			jsonlog = 1;
+			jsonformat = 1;
+			bindaddr = optarg;
 			break;
 		case 's':
 			station = 1;
@@ -300,7 +304,7 @@ int main(int argc, char **argv)
 
 		get_ip_str((struct sockaddr *)&src_addr, ipaddr, INET6_ADDRSTRLEN);
 
-		if (!jsonlog) {
+		if (!jsonformat) {
 			if (len <= 0) {
 				fprintf(stderr, "read %d\n", len);
 				continue;
