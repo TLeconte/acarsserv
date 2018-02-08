@@ -436,9 +436,19 @@ int main(int argc, char **argv)
 			if (cJSON_HasObjectItem(json_obj, "timestamp")) {
 				cJSON *j_timestamp = cJSON_GetObjectItem(json_obj, "timestamp");
 				msg->tm = j_timestamp->valuedouble;
-			} else 
+			} else {
+				cJSON_Delete(json_obj);
 				continue;
+			}
 
+			if (cJSON_HasObjectItem(json_obj, "flight")) {
+				cJSON *j_flight = cJSON_GetObjectItem(json_obj, "flight");
+				strcpy(msg->fid, j_flight->valuestring);
+			} else {
+				cJSON_Delete(json_obj);
+				continue;
+			}
+			
 			// prefer frequency
 			if (cJSON_HasObjectItem(json_obj, "freq")) {
 				cJSON *j_freq = cJSON_GetObjectItem(json_obj, "freq");
@@ -459,7 +469,7 @@ int main(int argc, char **argv)
 				cJSON *j_error = cJSON_GetObjectItem(json_obj, "error");
 				msg->err = j_error->valueint;
 			}
-
+			
 			if (cJSON_HasObjectItem(json_obj, "mode")) {
 				cJSON *j_mode = cJSON_GetObjectItem(json_obj, "mode");
 				msg->mode = j_mode->valuestring[0];
@@ -492,11 +502,6 @@ int main(int argc, char **argv)
 			if (cJSON_HasObjectItem(json_obj, "tail")) {
 				cJSON *j_tail = cJSON_GetObjectItem(json_obj, "tail");
 				strcpy(msg->reg, j_tail->valuestring);
-			}
-
-			if (cJSON_HasObjectItem(json_obj, "flight")) {
-				cJSON *j_flight = cJSON_GetObjectItem(json_obj, "flight");
-				strcpy(msg->fid, j_flight->valuestring);
 			}
 
 			if (cJSON_HasObjectItem(json_obj, "msgno")) {
