@@ -25,25 +25,25 @@ const char *regpre2[] = {
 	    "4W", "HC", "SU",
 	"YS", "3C", "E3", "ES", "ET", "DQ", "OH", "TR", "C5", "4L", "9G", "SX",
 	    "J3", "TG", "3X",
-	"J5", "8R", "HH", "HR", "HA", "TF", "VT", "PK", "EP", "YI", "EI", "4X",
-	    "6Y", "JY", "Z6",
-	"UP", "5Y", "T3", "HL", "9K", "EX", "YL", "OD", "7P", "A8", "5A", "HB",
+	"J5", "8R", "HH", "HR", "HA", "TF", "VT", "PK", "EP", "YI", "EI", "EJ", 
+            "4X", "6Y", "ZJ", "JY", "Z6",
+	"UP", "5Y", "T3", "9K", "EX", "YL", "OD", "7P", "A8", "5A", "HB",
 	    "LY", "LX", "Z3",
 	"5R", "7Q", "9M", "8Q", "TZ", "9H", "V7", "5T", "3B", "XA", "XB", "XC",
 	    "V6", "ER", "3A",
 	"JU", "4O", "CN", "C9", "XY", "XZ", "V5", "C2", "9N", "PH", "PJ", "ZK",
-	    "YN", "5U", "LN",
-	"AP", "AR", "SU", "E4", "HP", "P2", "ZP", "OB", "RP", "SP", "SN", "CR",
+	    "ZL", "ZM", "YN", "5U", "LN",
+	"AP", "SU", "E4", "HP", "P2", "ZP", "OB", "RP", "SP", "SN", "CR",
 	    "CS", "A7", "YR",
-	"RA", "RF", "V4", "J6", "J8", "5W", "T7", "S9", "HZ", "6V", "YU", "S7",
+	"RA", "RF", "V4", "J6", "J8", "5W", "T7", "S9", "HZ", "6V", "6W", "YU", "S7",
 	    "9L", "9V", "OM",
-	"S5", "H4", "6O", "ZS", "ZT", "ZU", "EC", "4R", "ST", "PZ", "3D", "SE",
+	"S5", "H4", "6O", "ZS", "ZT", "ZU", "Z8", "EC", "4R", "ST", "PZ", "SE",
 	    "HB", "YK", "EY",
 	"5H", "HS", "5V", "A3", "9Y", "TS", "TC", "EZ", "T2", "5X", "UR", "A6",
-	    "4U", "CX", "UK",
+	    "4U", "CX", 
 	"YJ", "VN", "7O", "9J", ""
 };
-const char *regpre3[] = { "A9C", "A4O", "9XR", "" };
+const char *regpre3[] = { "A9C", "A4O", "9XR", "3DC", "" };
 
 int verbose = 0;
 int station = 0;
@@ -520,7 +520,7 @@ int main(int argc, char **argv)
 
 		if (verbose)
 			fprintf(stdout,
-				"MSG ip='%s' chan='%d' mode='%1c' reg='%7s' ack='%1c' lbl='%2s' blk='%1c' msgno='%4s' flt='%6s' txt='%s'\n",
+				"MSG ip='%s' chan='%d' mode='%1c' reg='%s' ack='%1c' lbl='%2s' blk='%1c' msgno='%4s' flt='%6s' txt='%s'\n",
 				ipaddr, msg->chn, msg->mode, msg->reg, msg->ack, msg->label, msg->bid, msg->no, msg->fid, msg->txt);
 out:
 		free(msg);
